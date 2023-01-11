@@ -24,4 +24,4 @@ Close the terminal and open it again\
 
 ## Setup of project
 copy content of folder `models` to `/home/$USER/.gazebo/models`\
-copy `humanfilled.world` to <path-to-PX4>/Tools/simulation/gazebo/sitl_gazebo/worlds/
+copy `humanfilled.world` to \<path-to-PX4\>/Tools/simulation/gazebo/sitl_gazebo/worlds/
