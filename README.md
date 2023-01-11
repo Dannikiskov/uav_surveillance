@@ -1,4 +1,4 @@
-# UAV Surveillance simunlation in Gazebo using ROS, PX4 and Mavros 
+# UAV Surveillance Simulation 
 ## Setup of ROS, Gazebo, PX4 and Mavros
 Run the following commands on a clean install of ubuntu 20:\
 `sudo apt update`\
