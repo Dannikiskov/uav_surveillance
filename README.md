@@ -23,3 +23,4 @@ Close the terminal and open it again\
 `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`\
 \
 Test withroslaunch px4 posix_sitl.launch
+test
