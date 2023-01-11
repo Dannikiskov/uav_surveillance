@@ -10,8 +10,6 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,9 +40,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.sql.SQLOutput;
-import java.util.List;
-import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
@@ -136,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements
                 .draggable(true)
                 .visible(false));
 
-        // Listeners for the draggable markers. Allows the markers to update position after drag.
+        // Listener for the draggable markers. Allows the markers to update position after drag.
         if (mMap != null) {
             mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                 @Override
@@ -153,13 +148,14 @@ public class MapsActivity extends FragmentActivity implements
             });
         }
 
-        // Seperate thread for server connection
+        // Separate thread for server connection
         new Thread(new ClientThread()).start();
 
 
 
     }
 
+    // Deploys two markers at user location, that can be placed as desired
     public void field(View view) {
         System.out.println("AYO");
         findViewById(R.id.dragging_Done).setVisibility(View.VISIBLE);
@@ -175,6 +171,7 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+    // Marks the draggable markers invisible, and sends the markers coordinates to backend
     public void done(View view) throws IOException {
         findViewById(R.id.dragging_Done).setVisibility(View.INVISIBLE);
         findViewById(R.id.field_button).setVisibility(View.VISIBLE);
@@ -210,15 +207,14 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+        // Resizes given image with given width and height
     public Bitmap resizeMapIcons(String iconName, int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
 
-    /**
-     * Enables the My Location layer if the fine location permission has been granted.
-     */
+    // Enables access to user location if user accepts permissions
     @SuppressLint("MissingPermission")
     private void enableMyLocation() {
         // 1. Check if permissions are granted, if so, enable the my location layer
@@ -251,22 +247,21 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+    // Shows current user's coordinates on screen
     @Override
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG)
                 .show();
     }
 
+    // Button which returns screen to current user location
     @Override
     public boolean onMyLocationButtonClick() {
         getUserLocation();
-        //Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT)
-        //        .show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
         return false;
     }
 
+    // Retrieves current user precise location, and zooms in on the user
     public void getUserLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -286,11 +281,6 @@ public class MapsActivity extends FragmentActivity implements
                 }
             });
         };
-    }
-
-    public boolean isPermissionGranted() {
-        return (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
     }
 
     // Creates new socket connection to server
