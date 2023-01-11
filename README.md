@@ -22,5 +22,9 @@ Close the terminal and open it again\
 `source Tools/simulation/gazebo/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default`\
 `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`\
 \
+<<<<<<< HEAD
 Test withroslaunch px4 posix_sitl.launch
 test
+=======
+Test with `roslaunch px4 posix_sitl.launch`
+>>>>>>> be6e6d7b4bb9714fac469c085649117df6797de9
