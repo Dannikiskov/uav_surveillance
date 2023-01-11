@@ -10,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +42,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.SQLOutput;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
@@ -131,6 +136,24 @@ public class MapsActivity extends FragmentActivity implements
                 .draggable(true)
                 .visible(false));
 
+        // Listeners for the draggable markers. Allows the markers to update position after drag.
+        if (mMap != null) {
+            mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDrag(@NonNull Marker marker) {
+                }
+
+                @Override
+                public void onMarkerDragEnd(@NonNull Marker marker) {
+                }
+
+                @Override
+                public void onMarkerDragStart(@NonNull Marker marker) {
+                }
+            });
+        }
+
+        // Seperate thread for server connection
         new Thread(new ClientThread()).start();
 
 
@@ -158,7 +181,10 @@ public class MapsActivity extends FragmentActivity implements
         dragMarker1.setVisible(false);
         dragMarker2.setVisible(false);
         String dragMarkerCoords1 = "DragMarker1: (" + Double.toString(dragMarker1.getPosition().latitude) + "," + Double.toString(dragMarker1.getPosition().longitude) + ")";
-        String dragMarkerCooords2 = "DragMarker2: (" + Double.toString(dragMarker2.getPosition().latitude) + "," + Double.toString(dragMarker2.getPosition().longitude) + ")";
+        String dragMarkerCoords2 = "DragMarker2: (" + Double.toString(dragMarker2.getPosition().latitude) + "," + Double.toString(dragMarker2.getPosition().longitude) + ")";
+        System.out.println("Coordinates for marker 1: " + dragMarkerCoords1);
+        System.out.println("Coordinates for marker 2: " + dragMarkerCoords2);
+
         //new Thread() {
         //    public void run() {
         //        String serverIP = "192.168.87.39";
@@ -167,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements
         //            Socket sendClient = new Socket(serverIP, serverPort);
         //            OutputStream output = sendClient.getOutputStream();
         //            PrintWriter writer = new PrintWriter(output, true);
-        //            writer.write(dragMarkerCoords1 + dragMarkerCooords2);
+        //            writer.write(dragMarkerCoords1 + dragMarkerCoords2);
         //            writer.flush();
         //            writer.close();
         //        } catch (IOException e) {
@@ -267,6 +293,7 @@ public class MapsActivity extends FragmentActivity implements
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
     }
 
+    // Creates new socket connection to server
     public void connectToServer() {
         // Establishing server connection
         String serverIP = "192.168.87.39";
@@ -277,6 +304,7 @@ public class MapsActivity extends FragmentActivity implements
             e.printStackTrace();
         }
     }
+
 
     // the ClientThread class performs
     // the networking operations
