@@ -22,3 +22,5 @@ Close the terminal and open it again\
 `source Tools/simulation/gazebo/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default`\
 `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`\
 
+## Setup of project\
+add "models" folder to `$GAZEBO_MODEL_PATH` or copy models to `/home/$USER/.gazebo/models`
