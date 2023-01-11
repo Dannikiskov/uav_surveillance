@@ -7,9 +7,9 @@ Run the following commands on a clean install of ubuntu 20:\
 `mkdir src`\
 `cd src`\
 `git clone https://github.com/PX4/Firmware.git --recursive`\
-`cd Firmware`\\
-`bash ./Tools/setup/ubuntu.sh`
-
+`cd Firmware`\
+`bash ./Tools/setup/ubuntu.sh`\
+\
 `sudo reboot now`\
 `wget https://raw.githubusercontent.com/ktelegenov/scripts/main/ubuntu_sim_ros_noetic.sh`\
 `bash ubuntu_sim_ros_noetic.sh`\
