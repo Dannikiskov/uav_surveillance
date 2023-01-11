@@ -56,12 +56,6 @@ class Drone:
         self.local_position = data
 
     def start(self):
-        self.client.recieve_message()
-        while self.client.inbox_empty:
-            print('lullllll')
-        rospy.loginfo(self.client.inbox.pop())
-        self.client.inbox_empty = True
-
         pose = PoseStamped()
 
         pose.pose.position.x = 20
