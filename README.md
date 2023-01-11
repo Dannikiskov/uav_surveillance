@@ -1,6 +1,6 @@
 # uav_surveillance
 ## Setup of ROS, Gazebo, PX4 and Mavros
-*sudo apt update
+`sudo apt update`
 sudo apt upgrade
 sudo apt install git
 mkdir src
