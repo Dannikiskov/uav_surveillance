@@ -23,5 +23,5 @@ Close the terminal and open it again\
 `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`\
 
 ## Setup of project
-copy content of folder `models` to `/home/$USER/.gazebo/models`
+copy content of folder `models` to `/home/$USER/.gazebo/models`\
 copy `humanfilled.world` to <path-to-PX4>/Tools/simulation/gazebo/sitl_gazebo/worlds/
