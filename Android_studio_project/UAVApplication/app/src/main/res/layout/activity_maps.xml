@@ -13,7 +13,7 @@
         tools:context=".MapsActivity" />
 
     <Button
-        android:id="@+id/field_button"
+        android:id="@+id/dragging_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -43,6 +43,22 @@
         android:padding="8dp"
         android:onClick="done"
         android:text="Done"
+        android:textColor="#212121" />
+
+    <Button
+        android:id="@+id/dragging_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="900dp"
+        android:layout_marginEnd="400dp"
+        android:layout_marginBottom="5dp"
+        android:background="#359c5e"
+        android:padding="8dp"
+        android:onClick="cancel"
+        android:text="Cancel"
         android:textColor="#212121" />
 
 

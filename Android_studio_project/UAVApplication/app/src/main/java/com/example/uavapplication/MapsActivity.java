@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.uavapplication.databinding.ActivityMapsBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.BufferedReader;
@@ -48,7 +47,6 @@ public class MapsActivity extends FragmentActivity implements
         ActivityCompat.OnRequestPermissionsResultCallback {
 
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
     private BitmapDescriptor markerIcon;
 
     // Markers for drone zone
@@ -72,16 +70,18 @@ public class MapsActivity extends FragmentActivity implements
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
+        com.example.uavapplication.databinding.ActivityMapsBinding binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         // Button only shown when dragging
         findViewById(R.id.dragging_Done).setVisibility(View.INVISIBLE);
+        findViewById(R.id.dragging_cancel).setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -94,39 +94,25 @@ public class MapsActivity extends FragmentActivity implements
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
 
         // Setting up Google maps
         mMap = googleMap;
-        System.out.println("HOWDYPARTNER");
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         markerIcon = BitmapDescriptorFactory.fromBitmap(resizeMapIcons("red_circle", 50, 50));
         enableMyLocation();
         getUserLocation();
 
-        // Add a marker in Sydney and move the camera
+        // Add invisible draggable markers
         LatLng odense = new LatLng(55.415643, 10.373886);
-        LatLng copenhagen = new LatLng(55.676098, 12.568337);
-        mMap.addMarker(new MarkerOptions()
-                .position(odense)
-                .title("x targets") // Title of marker
-                .alpha(0.5f) // Opacity of the marker
-                .anchor(0.5f, 0.5f) // Sets position to be middle of the marker
-                .flat(true)
-                .icon(markerIcon)); // Icon of the marker
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(odense, 15f));
-        //enableMyLocation();
-        //getUserLocation(); // Update last known location
-        //Log.i("lastknownlocation", "lat" + lastKnownLocation.getLatitude());
         dragMarker1 = mMap.addMarker(new MarkerOptions()
-                .position(copenhagen)
+                .position(odense)
                 .title("draggable marker1")
                 .draggable(true)
                 .visible(false));
         dragMarker2 = mMap.addMarker(new MarkerOptions()
-                .position(copenhagen)
+                .position(odense)
                 .title("draggable marker2")
                 .draggable(true)
                 .visible(false));
@@ -155,63 +141,74 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
+    // Closes server connection before destroying app process
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new Thread(new closeConnection()).start();
+        finish();
+    }
+
     // Deploys two markers at user location, that can be placed as desired
     public void field(View view) {
-        System.out.println("AYO");
-        findViewById(R.id.dragging_Done).setVisibility(View.VISIBLE);
-        findViewById(R.id.field_button).setVisibility(View.INVISIBLE);
-        //getUserLocation();
-        Log.i("lastknownlocation", "lat" + lastKnownLocation.getLatitude());
-        dragMarker1.setPosition(new LatLng(lastKnownLocation.getLatitude(),
-                lastKnownLocation.getLongitude() + 0.0001));
-        dragMarker2.setPosition(new LatLng(lastKnownLocation.getLatitude(),
-                lastKnownLocation.getLongitude() - 0.0001));
-        dragMarker1.setVisible(true);
-        dragMarker2.setVisible(true);
+        // Similar to getLocation, but updates the new draggable markers position also
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+            locationResult.addOnCompleteListener(this, task -> {
+                if(task.isSuccessful()) {
+                    // Zoom in on current device
+                    lastKnownLocation = task.getResult();
+                    if (lastKnownLocation != null) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(lastKnownLocation.getLatitude(),
+                                        lastKnownLocation.getLongitude()), 17));
+                        findViewById(R.id.dragging_Done).setVisibility(View.VISIBLE);
+                        findViewById(R.id.dragging_cancel).setVisibility(View.VISIBLE);
+                        findViewById(R.id.dragging_field).setVisibility(View.INVISIBLE);
 
+                        Log.i("lastknownlocation", "lat" + lastKnownLocation.getLatitude());
+                        dragMarker1.setPosition(new LatLng(lastKnownLocation.getLatitude(),
+                                lastKnownLocation.getLongitude() + 0.0001));
+                        dragMarker2.setPosition(new LatLng(lastKnownLocation.getLatitude(),
+                                lastKnownLocation.getLongitude() - 0.0001));
+                        dragMarker1.setVisible(true);
+                        dragMarker2.setVisible(true);
+                    }
+                }
+            });
+        }
     }
 
     // Marks the draggable markers invisible, and sends the markers coordinates to backend
-    public void done(View view) throws IOException {
+    public void done(View view) {
         findViewById(R.id.dragging_Done).setVisibility(View.INVISIBLE);
-        findViewById(R.id.field_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.dragging_cancel).setVisibility(View.INVISIBLE);
+        findViewById(R.id.dragging_field).setVisibility(View.VISIBLE);
         dragMarker1.setVisible(false);
         dragMarker2.setVisible(false);
-        String dragMarkerCoords1 = "DragMarker1: (" + Double.toString(dragMarker1.getPosition().latitude) + "," + Double.toString(dragMarker1.getPosition().longitude) + ")";
-        String dragMarkerCoords2 = "DragMarker2: (" + Double.toString(dragMarker2.getPosition().latitude) + "," + Double.toString(dragMarker2.getPosition().longitude) + ")";
+        String dragMarkerCoords1 = "DragMarker1: (" + dragMarker1.getPosition().latitude + "," + dragMarker1.getPosition().longitude + ")";
+        String dragMarkerCoords2 = "DragMarker2: (" + dragMarker2.getPosition().latitude + "," + dragMarker2.getPosition().longitude + ")";
         System.out.println("Coordinates for marker 1: " + dragMarkerCoords1);
         System.out.println("Coordinates for marker 2: " + dragMarkerCoords2);
+        new Thread(new Sender(dragMarkerCoords1)).start();
+        new Thread(new Sender(dragMarkerCoords2)).start();
 
-        //new Thread() {
-        //    public void run() {
-        //        String serverIP = "192.168.87.39";
-        //        int serverPort = 8888;
-        //        try {
-        //            Socket sendClient = new Socket(serverIP, serverPort);
-        //            OutputStream output = sendClient.getOutputStream();
-        //            PrintWriter writer = new PrintWriter(output, true);
-        //            writer.write(dragMarkerCoords1 + dragMarkerCoords2);
-        //            writer.flush();
-        //            writer.close();
-        //        } catch (IOException e) {
-        //            e.printStackTrace();
-        //        }
-        //    }
-        //}.start();
-        //OutputStream output = client.getOutputStream();
-        //PrintWriter writer = new PrintWriter(output, true);
-        //writer.write("Can you hear me?");
-        //writer.flush();
-        //writer.close();
+    }
 
-
+    // Cancel the draggable markers
+    public void cancel(View view) {
+        findViewById(R.id.dragging_cancel).setVisibility(View.INVISIBLE);
+        findViewById(R.id.dragging_Done).setVisibility(View.INVISIBLE);
+        findViewById(R.id.dragging_field).setVisibility(View.VISIBLE);
+        dragMarker1.setVisible(false);
+        dragMarker2.setVisible(false);
     }
 
         // Resizes given image with given width and height
     public Bitmap resizeMapIcons(String iconName, int width, int height){
         Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
-        return resizedBitmap;
+        return Bitmap.createScaledBitmap(imageBitmap, width, height, false);
     }
 
     // Enables access to user location if user accepts permissions
@@ -235,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements
 
     // Is called after a permission request has been made
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode != 1) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             return;
@@ -266,21 +263,18 @@ public class MapsActivity extends FragmentActivity implements
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
-            locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    if(task.isSuccessful()) {
-                        // Zoom in on current device
-                        lastKnownLocation = task.getResult();
-                        if (lastKnownLocation != null) {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(lastKnownLocation.getLatitude(),
-                                            lastKnownLocation.getLongitude()), 17));
-                        }
+            locationResult.addOnCompleteListener(this, task -> {
+                if(task.isSuccessful()) {
+                    // Zoom in on current device
+                    lastKnownLocation = task.getResult();
+                    if (lastKnownLocation != null) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(lastKnownLocation.getLatitude(),
+                                        lastKnownLocation.getLongitude()), 17));
                     }
                 }
             });
-        };
+        }
     }
 
     // Creates new socket connection to server
@@ -295,7 +289,6 @@ public class MapsActivity extends FragmentActivity implements
         }
     }
 
-
     // the ClientThread class performs
     // the networking operations
     class ClientThread implements Runnable {
@@ -306,57 +299,60 @@ public class MapsActivity extends FragmentActivity implements
                 // the IP and port should be correct to have a connection established
                 // Creates a stream socket and connects it to the specified port number on the named host.
 
-                //String serverIP = "192.168.87.39";
-                //int serverPort = 8888;
-
-                //Socket client = new Socket(serverIP, serverPort);
                 connectToServer();
                 InputStream input = client.getInputStream();
                 OutputStream output = client.getOutputStream();
 
                 reader = new BufferedReader(new InputStreamReader(input));
                 writer = new PrintWriter(output, true);
-                //BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                //PrintWriter writer = new PrintWriter(output, true);
-                // send message
-                //output.write
-                writer.write("lul");
-                writer.flush();
-                writer.write("yeet");
-                writer.flush();
-                //writer.close();
 
 
                 while (true) {
                     String message = reader.readLine();
                     if (message != null) {
                         String[] msgSplit = message.split("_", 0);
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                mMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(Double.parseDouble(msgSplit[1]), Double.parseDouble(msgSplit[2])))
-                                        .title("Target: " + msgSplit[0]) // Title of marker
-                                        .alpha(0.5f) // Opacity of the marker
-                                        .anchor(0.5f, 0.5f) // Sets position to be middle of the marker
-                                        .flat(false)
-                                        .icon(markerIcon)); // Icon of the marker
-                            }
+                        runOnUiThread(() -> {
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(Double.parseDouble(msgSplit[1]), Double.parseDouble(msgSplit[2])))
+                                    .title("Target: " + msgSplit[0]) // Title of marker
+                                    .alpha(0.5f) // Opacity of the marker
+                                    .anchor(0.5f, 0.5f) // Sets position to be middle of the marker
+                                    .flat(false)
+                                    .icon(markerIcon)); // Icon of the marker
                         });
                         System.out.println(message);
                     }
                 }
-
-
-
-                // closing the connection
-                //client.close();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    // Thread for sending coordinates to server
+    class Sender implements Runnable {
+        private String message;
+        Sender(String message) {
+            this.message = message;
+        }
+        @Override
+        public void run() {
+            writer.write(message);
+            writer.flush();
+        }
+    }
+
+    // Thread for closing all connections
+    class closeConnection implements Runnable {
+        @Override
+        public void run() {
+            try {
+                writer.close();
+                reader.close();
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
