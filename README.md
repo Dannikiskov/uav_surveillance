@@ -60,7 +60,7 @@ To take advantage of the actual front end these are the following requirements:
 * Able to use host as hypervisor for Android phone emulation
 * your own personal google API key in order for google maps to function inside the emulation
 
-Find your latitude and longitude and use that value in the commands  `export PX4_HOME_LAT` and `export PX4_HOME_LAT` like above.
+Find your latitude and longitude and use that value in the commands  `export PX4_HOME_LAT` and `export PX4_HOME_LON` like above.
 If these requirements are met follow steps A and B in Simulated front end and replace step C with opening the app on the emulated android phone, place markers and press 'Done'.\
 Supports QGroundControl. You should in there be able to see velocity, altitude, and vital signs like battery percentage and more.\
 
