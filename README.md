@@ -39,8 +39,15 @@ To take advantage of the simulated front-end example, export PX4 coordinates.
 * `export PX4_HOME_LAT=55.3516`
 * `export PX4_HOME_LON=10.4053`
 \
-Next start the server in python_backend with `python3 server.py`\
+\
+In a 2. terminal start the server in python_backend with `python3 server.py`
 * `roslaunch offboard_py start_offb.launch`
+\
+\
+In a 3. terminal start the simulated frontned with `python3 simulated_frontend.py`\
+\
+When you see the message \[commander\] Takeoff detected you can send the from the simulated frontend to the server by pressing 'Enter'
+
 
 ### Actual front end
 
