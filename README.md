@@ -17,7 +17,7 @@ Run the following commands on a clean install of ubuntu 20:\
 Close the terminal and open it again\
 `cd src/Firmware`\
 `git submodule update --init --recursive`\
-copy iris.sdf.jinja to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/models/iris
+copy iris.sdf.jinja to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/models/iris\
 `DONT_RUN=1 make px4_sitl_default gazebo_iris`\
 \
 `source Tools/simulation/gazebo/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default`\
