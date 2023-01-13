@@ -50,7 +50,7 @@ When you see the message '\[commander\] Takeoff detected' the drone with start t
 \
 You should now see the drone act out its mission received from the server, and the people it detects is visible in the ser and front end terminal.\
 \
-Supports QGroundControl You should in there be able to see velocity, altitude, and vital signs like battery percentage and more.\
+Supports QGroundControl. You should in there be able to see velocity, altitude, and vital signs like battery percentage and more.\
 See drone's camera by opening rqt -> Plugins -> Visualization -> Image View and choose camera from drop down menu.
 
 
