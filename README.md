@@ -60,7 +60,7 @@ To take advantage of the actual front end these are the following requirements:
 * Able to use host as hypervisor for Android phone emulation
 * your own personal google API key and insert it into UAVApplication/app/src/main/AndroidManifest.xml in the field android:value="API_KEY_HERE" /\> in order to get google maps to work.
 \
-Go to: SDK manager -> SDK Tools and enable Google Play services.\
+* Go to: SDK manager -> SDK Tools and enable Google Play services.\
 This is tested on an emulated Samsung S20+ running Tiramisu API 33.\
 \
 Find your latitude and longitude and use that value in the commands  `export PX4_HOME_LAT` and `export PX4_HOME_LON` like above.
