@@ -39,6 +39,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
@@ -278,9 +279,10 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     // Creates new socket connection to server
-    public void connectToServer() {
+    public void connectToServer() throws UnknownHostException {
         // Establishing server connection
-        String serverIP = "192.168.87.39";
+        // Connects to local host
+        String serverIP = "10.0.2.2";
         int serverPort = 8888;
         try {
             client = new Socket(serverIP, serverPort);
@@ -305,6 +307,8 @@ public class MapsActivity extends FragmentActivity implements
 
                 reader = new BufferedReader(new InputStreamReader(input));
                 writer = new PrintWriter(output, true);
+                writer.write("frontend");
+                writer.flush();
 
 
                 while (true) {
