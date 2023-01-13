@@ -40,11 +40,11 @@ To take advantage of the simulated front-end example, export PX4 coordinates.
 * `export PX4_HOME_LON=10.4053`
 \
 \
-In your current terminal start ROS, Gazebo and PX4 with `roslaunch offboard_py start_offb.launch`\
+A. In your current terminal start ROS, Gazebo and PX4 with `roslaunch offboard_py start_offb.launch`\
 \
-In a 2. terminal start the server in python_backend with `python3 server.py`\
+B.In a 2. terminal start the server in python_backend with `python3 server.py`\
 \
-In a 3. terminal start the simulated frontend with `python3 simulated_frontend.py`\
+C.In a 3. terminal start the simulated frontend with `python3 simulated_frontend.py`\
 \
 When you see the message '\[commander\] Takeoff detected' the drone with start to ascend and you can send the GPS coordinates from the simulated frontend to the server by pressing 'Enter'\
 \
@@ -55,5 +55,10 @@ See drone's camera feed by opening rqt -> Plugins -> Visualization -> Image View
 
 
 ### Actual front end
+To take advantage of the actual front end these are the following requirements:
+* Android studio installed
+* Able to use host as hypervisor for Android phone emulation
+* your own personal google API key in order for google maps to function inside the emulation
 
+If these requirements are met follow step A and B in Simulated front end and replace step C with opening the app on the emulated android phone, place markers and press 'Done'.
 
