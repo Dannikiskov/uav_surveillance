@@ -188,12 +188,9 @@ public class MapsActivity extends FragmentActivity implements
         findViewById(R.id.dragging_field).setVisibility(View.VISIBLE);
         dragMarker1.setVisible(false);
         dragMarker2.setVisible(false);
-        String dragMarkerCoords1 = "DragMarker1: (" + dragMarker1.getPosition().latitude + "," + dragMarker1.getPosition().longitude + ")";
-        String dragMarkerCoords2 = "DragMarker2: (" + dragMarker2.getPosition().latitude + "," + dragMarker2.getPosition().longitude + ")";
-        System.out.println("Coordinates for marker 1: " + dragMarkerCoords1);
-        System.out.println("Coordinates for marker 2: " + dragMarkerCoords2);
-        new Thread(new Sender(dragMarkerCoords1)).start();
-        new Thread(new Sender(dragMarkerCoords2)).start();
+        String dragMarkerCoords = "[" + dragMarker2.getPosition().latitude + ", " + dragMarker2.getPosition().longitude + "], " + "[" + dragMarker1.getPosition().latitude + ", " + dragMarker1.getPosition().longitude + "]";
+        System.out.println("Coordinates for area: " + dragMarkerCoords);
+        new Thread(new Sender(dragMarkerCoords)).start();
 
     }
 
