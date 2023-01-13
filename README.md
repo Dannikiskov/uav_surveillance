@@ -24,7 +24,7 @@ Run the following commands on a clean install of ubuntu 20:\
 
 ## Setup of project
 1. copy content of folder 'models' to /home/$USER/.gazebo/models
-2. delete old iris.sdf and copy iris.sdf.jinja to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/models/iris
+2. delete old iris.sdf and copy iris.sdf.jinja to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/models/iris TODO
 3. do `DONT_RUN=1 make px4_sitl_default gazebo_iris`
 4. copy humanfilled.world to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/worlds
 5. copy uav_surveillance.launch to \<path-to-PX4-or-Firmware\>/launch
