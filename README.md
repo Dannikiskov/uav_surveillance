@@ -1,6 +1,6 @@
 # UAV Surveillance Simulation 
 ## Setup of ROS, Gazebo, PX4 and Mavros
-Run the following commands on a clean install of ubuntu 20:
+Run the following commands on a clean install of ubuntu 20.04:
 1. `sudo apt update`
 2. `sudo apt upgrade`
 3. `sudo apt install git`
