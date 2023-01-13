@@ -36,11 +36,11 @@ Run the following commands on a clean install of ubuntu 20:
 ## Running the project
 ### Simulated front end
 To take advantage of the simulated front-end example, export PX4 coordinates.
-1. `export PX4_HOME_LAT=55.3516`
-2. `export PX4_HOME_LON=10.4053`
+* `export PX4_HOME_LAT=55.3516`
+* `export PX4_HOME_LON=10.4053`
 \
 Next start the server in python_backend with `python3 server.py`\
-`roslaunch offboard_py start_offb.launch`
+*`roslaunch offboard_py start_offb.launch`
 
 ### Actual front end
 
