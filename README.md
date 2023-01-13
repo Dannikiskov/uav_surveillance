@@ -32,6 +32,6 @@ Run the following commands on a clean install of ubuntu 20:\
 7. do `cd ~/catkin_ws`
 8. do `catkin build`
 9. do `source ~/catkin_ws/devel/setup.bash`
-10. do ```source ~/\<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/setup_gazebo.bash ~/\<path-to-PX4-or-Firmware\> \<path-to-PX4-or-Firmware\>/build/px4_sitl_default```
+10. do ```{r} source ~/\<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/setup_gazebo.bash ~/\<path-to-PX4-or-Firmware\> \<path-to-PX4-or-Firmware\>/build/px4_sitl_default```
 
 ## Running the project
