@@ -42,9 +42,9 @@ To take advantage of the simulated front-end example, export PX4 coordinates.
 \
 A. In your current terminal start ROS, Gazebo and PX4 with `roslaunch offboard_py start_offb.launch`\
 \
-B. In a 2. terminal start the server in python_backend with `python3 server.py`\
+B. In a 2nd terminal start the server in python_backend with `python3 server.py`\
 \
-C. In a 3. terminal start the simulated frontend with `python3 simulated_frontend.py`\
+C. In a 3rd terminal start the simulated frontend with `python3 simulated_frontend.py`\
 \
 When you see the message '\[commander\] Takeoff detected' the drone with start to ascend and you can send the GPS coordinates from the simulated frontend to the server by pressing 'Enter'\
 \
