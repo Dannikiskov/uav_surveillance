@@ -3,7 +3,7 @@ import cvlib
 
 # Class for detecting bounding boxes of people in a given image using YOLO
 class PeopleDetector:
-    def __init__(self, confidence=0.2, model='yolov4-tiny', enable_gpu=False):
+    def __init__(self, confidence=0.3, model='yolov4-tiny', enable_gpu=False):
         self.confidence = confidence
         self.model = model
         self.enable_gpu = enable_gpu
