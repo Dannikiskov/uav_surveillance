@@ -46,7 +46,12 @@ In a 2. terminal start the server in python_backend with `python3 server.py`\
 \
 In a 3. terminal start the simulated frontend with `python3 simulated_frontend.py`\
 \
-When you see the message '\[commander\] Takeoff detected' you can send the GPS coordinates from the simulated frontend to the server by pressing 'Enter'
+When you see the message '\[commander\] Takeoff detected' the drone with start to ascend and you can send the GPS coordinates from the simulated frontend to the server by pressing 'Enter'\
+\
+You should now see the drone act out its mission received from the server, and the people it detects is visible in the ser and front end terminal.\
+\
+Supports QGroundControl You should in there be able to see velocity, altitude, and vital signs like battery percentage and more.\
+See drone's camera by opening rqt -> Plugins -> Visualization -> Image View and choose camera from drop down menu.
 
 
 ### Actual front end
