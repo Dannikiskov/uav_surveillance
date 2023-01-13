@@ -36,8 +36,8 @@ Run the following commands on a clean install of ubuntu 20:
 ## Running the project
 ### Simulated front end
 To take advantage of the simulated front-end example, export PX4 coordinates.
-* `export PX4_HOME_LAT=55.3516`
-* `export PX4_HOME_LON=10.4053`
+1. `export PX4_HOME_LAT=55.3516`
+2. `export PX4_HOME_LON=10.4053`
 \
 \
 A. In your current terminal start ROS, Gazebo and PX4 with `roslaunch offboard_py start_offb.launch`\
@@ -60,5 +60,5 @@ To take advantage of the actual front end these are the following requirements:
 * Able to use host as hypervisor for Android phone emulation
 * your own personal google API key in order for google maps to function inside the emulation
 
-If these requirements are met follow step A and B in Simulated front end and replace step C with opening the app on the emulated android phone, place markers and press 'Done'.
+If these requirements are met follow steps 1 and 2, A and B in Simulated front end and replace step C with opening the app on the emulated android phone, place markers and press 'Done'.
 
