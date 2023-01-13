@@ -189,7 +189,6 @@ public class MapsActivity extends FragmentActivity implements
         dragMarker1.setVisible(false);
         dragMarker2.setVisible(false);
         String dragMarkerCoords = "[" + dragMarker2.getPosition().latitude + ", " + dragMarker2.getPosition().longitude + "], " + "[" + dragMarker1.getPosition().latitude + ", " + dragMarker1.getPosition().longitude + "]";
-        System.out.println("Coordinates for area: " + dragMarkerCoords);
         new Thread(new Sender(dragMarkerCoords)).start();
 
     }
@@ -321,7 +320,6 @@ public class MapsActivity extends FragmentActivity implements
                                     .flat(false)
                                     .icon(markerIcon)); // Icon of the marker
                         });
-                        System.out.println(message);
                     }
                 }
             } catch (IOException e) {
