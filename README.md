@@ -29,5 +29,9 @@ Run the following commands on a clean install of ubuntu 20:\
 4. copy humanfilled.world to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/worlds
 5. copy uav_surveillance.launch to \<path-to-PX4-or-Firmware\>/launch
 6. copy content of ros_package to ~/catkin_ws/src
+7. do `cd ~/catkin_ws`
+8. do `catkin build`
+9. do `source ~/catkin_ws/devel/setup.bash`
+10. do `source ~/\<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/setup_gazebo.bash ~/\<path-to-PX4-or-Firmware\> \<path-to-PX4-or-Firmware\>/build/px4_sitl_default
 
 ## Running the project
