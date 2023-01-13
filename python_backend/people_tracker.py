@@ -1,11 +1,9 @@
 import numpy as np
 
 
-# People tracker based on:
-# https://pyimagesearch.com/2018/07/23/simple-object-tracking-with-opencv/
-# https://medium.com/aiguys/a-centroid-based-object-tracking-implementation-455021c2c997
+# Centroid based people tracker
 class PeopleTracker:
-    def __init__(self, max_frames_disappeared=50, max_euclidean_distance=50):
+    def __init__(self, max_frames_disappeared=25, max_euclidean_distance=75):
         self.id_counter = 0
         self.people = {}
         self.person_frames_disappeared = {}
@@ -39,10 +37,10 @@ class PeopleTracker:
                 # Compute euclidean distances list in the form of:
                 # [[person_id, centroid_new, distance], .....]
                 euclidean_distances = [
-                                       [person_id, centroid_new, np.linalg.norm((self.people[person_id][0] - centroid_new[0], self.people[person_id][1] - centroid_new[1]))]
-                                       for person_id in self.people.keys()
-                                       for centroid_new in centroids
-                                       ]
+                    [person_id, centroid_new, np.linalg.norm((self.people[person_id][0] - centroid_new[0], self.people[person_id][1] - centroid_new[1]))]
+                    for person_id in self.people.keys()
+                    for centroid_new in centroids
+                ]
                 # Sorts the list by the distances
                 euclidean_distances.sort(key=lambda elem: elem[2])
 
@@ -74,3 +72,4 @@ class PeopleTracker:
         self.people[self.id_counter] = centroid
         self.person_frames_disappeared[self.id_counter] = 0
         self.id_counter += 1
+
