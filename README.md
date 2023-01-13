@@ -20,7 +20,7 @@ do `git submodule update --init --recursive`\
 do `DONT_RUN=1 make px4_sitl_default gazebo_iris`\
 \
 do `source Tools/simulation/gazebo/setup_gazebo.bash $(pwd) $(pwd)/build/px4_sitl_default`\
-do `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`\
+do `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`
 
 ## Setup of project
 copy content of folder 'models' to /home/$USER/.gazebo/models\
