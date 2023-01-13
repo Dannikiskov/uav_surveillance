@@ -23,9 +23,9 @@ Run the following commands on a clean install of ubuntu 20:\
 17. `export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd):$(pwd)/Tools/simulation/gazebo/sitl_gazebo`
 
 ## Setup of project
-copy content of folder 'models' to /home/$USER/.gazebo/models\
-delete old iris.sdf and copy iris.sdf.jinja to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/models/iris\
-do `DONT_RUN=1 make px4_sitl_default gazebo_iris`\
-copy humanfilled.world to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/worlds\
-copy uav_surveillance.launch to \<path-to-PX4-or-Firmware\>/launch/
-copy content of ros_package to ~/catkin_ws/src\
+1. copy content of folder 'models' to /home/$USER/.gazebo/models
+2. delete old iris.sdf and copy iris.sdf.jinja to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/models/iris
+3. do `DONT_RUN=1 make px4_sitl_default gazebo_iris`
+4. copy humanfilled.world to \<path-to-PX4-or-Firmware\>/Tools/simulation/gazebo/sitl_gazebo/worlds
+5. copy uav_surveillance.launch to \<path-to-PX4-or-Firmware\>/launch
+6. copy content of ros_package to ~/catkin_ws/src
